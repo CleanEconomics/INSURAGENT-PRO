@@ -22,6 +22,7 @@ import Analytics from './components/Analytics';
 import Copilot from './components/Copilot';
 import CommandPalette from './components/CommandPalette';
 import Tasks from './components/Tasks';
+import EmailInbox from './components/EmailInbox';
 import { Page, ClientLead, RecruitLead, Opportunity, AgentCandidate, Team as TeamType, Agent, PipelineStage, RecruitingStage, LineOfBusiness, ActivityType, LeadStatus, AgentWithStats, TrainingModule, TrainingCategory, KnowledgeResource, KnowledgeCategory as KnowledgeCategoryEnum, ResourceType, Appointment, Contact, Message, AiAgent, Automation, TriggerType, ActionType, RescindedResponse, DncEntry, ServiceTicket, ServiceTicketCategory, ServiceTicketPriority, ServiceTicketStatus, Task } from './types';
 import AgentDetailView from './components/AgentDetailView';
 import AiAgentConfigurationModal from './components/AiAgentConfigurationModal';
@@ -895,6 +896,8 @@ const App: React.FC = () => {
                     contacts={contacts}
                     onAddAppointment={handleAddAppointment}
                 />;
+      case Page.Inbox:
+        return <EmailInbox />;
       case Page.Tasks:
         return <Tasks 
                   tasks={tasks}

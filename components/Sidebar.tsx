@@ -5,7 +5,7 @@ import { Page } from '../types';
 import { 
     DashboardIcon, LeadsIcon, PipelineIcon, ContactsIcon, CalendarIcon, SettingsIcon, 
     AiSparkleIcon, RecruitingIcon, CommissionsIcon, MarketingIcon, AnalyticsIcon, ServiceIcon, 
-    TrainingIcon, TrophyIcon, UsersIcon, BookOpenIcon, AiAgentsIcon, TasksIcon
+    TrainingIcon, TrophyIcon, UsersIcon, BookOpenIcon, AiAgentsIcon, TasksIcon, EmailIcon
 } from './icons';
 
 interface SidebarProps {
@@ -55,6 +55,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, setActivePage, isCollapse
   ];
 
   const toolsNavItems = [
+    { id: Page.Inbox, icon: <EmailIcon className="w-5 h-5" />, label: 'Email Inbox' },
     { id: Page.Calendar, icon: <CalendarIcon className="w-5 h-5" />, label: 'Calendar' },
     { id: Page.Tasks, icon: <TasksIcon className="w-5 h-5" />, label: 'Tasks' },
     { id: Page.AiAgents, icon: <AiAgentsIcon className="w-5 h-5" />, label: 'AI Agents' },
