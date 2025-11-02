@@ -1,9 +1,9 @@
-import { GoogleGenerativeAI } from '@google/genai';
+import { GoogleGenAI } from '@google/genai';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 
 // Define tools available to the AI Copilot
 const tools = [
@@ -233,9 +233,7 @@ const tools = [
 
 export async function getAiCopilotResponse(history: any[], context?: string) {
   try {
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-1.5-flash',
-      systemInstruction: `You are an intelligent AI assistant for InsurAgent Pro, an insurance agency management platform.
+    const systemInstruction = `You are an intelligent AI assistant for InsurAgent Pro, an insurance agency management platform.
 You help insurance agents with:
 - Managing leads and contacts
 - Scheduling appointments
@@ -243,31 +241,26 @@ You help insurance agents with:
 - Finding information in the knowledge base
 - Creating and updating CRM records
 
-Be concise, professional, and helpful. When users ask you to perform actions, use the available tools.`,
+Be concise, professional, and helpful. When users ask you to perform actions, use the available tools.`;
+
+    const contents = [
+      { role: 'user', parts: [{ text: systemInstruction }] },
+      ...history.map((msg: any) => ({
+        role: msg.role,
+        parts: [{ text: msg.parts?.[0]?.text || msg.content || '' }]
+      })),
+      { role: 'user', parts: [{ text: context || '' }] }
+    ];
+
+    const response = await genAI.models.generateContent({
+      model: 'gemini-1.5-flash',
+      contents: contents,
     });
-
-    const chat = model.startChat({
-      history: history,
-      tools: [{ functionDeclarations: tools }],
-    });
-
-    const result = await chat.sendMessage(context || '');
-    const response = result.response;
-
-    // Check if there are function calls
-    const functionCalls = response.functionCalls();
-
-    if (functionCalls && functionCalls.length > 0) {
-      return {
-        functionCalls: functionCalls,
-        chatResponse: null,
-      };
-    }
 
     // Return text response
     return {
       functionCalls: null,
-      chatResponse: response.text(),
+      chatResponse: response.text || '',
     };
   } catch (error) {
     console.error('Gemini API error:', error);
@@ -277,21 +270,21 @@ Be concise, professional, and helpful. When users ask you to perform actions, us
 
 export async function getAiFunctionResponse(history: any[], functionResponses: any[]) {
   try {
-    const model = genAI.getGenerativeModel({
+    const contents = [
+      { role: 'user', parts: [{ text: 'You are an intelligent AI assistant for InsurAgent Pro.' }] },
+      ...history.map((msg: any) => ({
+        role: msg.role,
+        parts: [{ text: msg.parts?.[0]?.text || msg.content || '' }]
+      })),
+    ];
+
+    const response = await genAI.models.generateContent({
       model: 'gemini-1.5-flash',
-      systemInstruction: `You are an intelligent AI assistant for InsurAgent Pro.`,
+      contents: contents,
     });
-
-    const chat = model.startChat({
-      history: history,
-      tools: [{ functionDeclarations: tools }],
-    });
-
-    const result = await chat.sendMessage(functionResponses);
-    const response = result.response;
 
     return {
-      chatResponse: response.text(),
+      chatResponse: response.text || '',
       functionCalls: null,
     };
   } catch (error) {
@@ -302,10 +295,6 @@ export async function getAiFunctionResponse(history: any[], functionResponses: a
 
 export async function getAiLeadMapping(headers: string[]) {
   try {
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-1.5-flash',
-    });
-
     const prompt = `You are analyzing CSV headers to map them to CRM fields for lead import.
 
 CSV Headers: ${headers.join(', ')}
@@ -331,8 +320,12 @@ Return a JSON object in this exact format:
   }
 }`;
 
-    const result = await model.generateContent(prompt);
-    const text = result.response.text();
+    const response = await genAI.models.generateContent({
+      model: 'gemini-1.5-flash',
+      contents: prompt,
+    });
+
+    const text = response.text || '';
 
     // Extract JSON from response
     const jsonMatch = text.match(/\{[\s\S]*\}/);

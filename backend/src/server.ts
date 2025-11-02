@@ -54,7 +54,7 @@ setupDatabaseListeners();
 
 // Middleware
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+  origin: true,
   credentials: true,
 }));
 app.use(express.json());
@@ -97,7 +97,7 @@ app.use(notFound);
 app.use(errorHandler);
 
 // Start server
-httpServer.listen(PORT, () => {
+httpServer.listen(PORT, 'localhost', () => {
   console.log('');
   console.log('╔═══════════════════════════════════════════════════════╗');
   console.log('║                                                       ║');
