@@ -7,6 +7,7 @@ export enum Page {
   Leads = 'Leads',
   Pipeline = 'Pipeline',
   Contacts = 'Contacts',
+  Policies = 'Policies',
   Team = 'Team',
   Recruiting = 'Recruiting',
   Commissions = 'Commissions',

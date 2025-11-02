@@ -5,7 +5,7 @@ import { Page } from '../types';
 import { 
     DashboardIcon, LeadsIcon, PipelineIcon, ContactsIcon, CalendarIcon, SettingsIcon, 
     AiSparkleIcon, RecruitingIcon, CommissionsIcon, MarketingIcon, AnalyticsIcon, ServiceIcon, 
-    TrainingIcon, TrophyIcon, UsersIcon, BookOpenIcon, AiAgentsIcon, TasksIcon, EmailIcon
+    TrainingIcon, TrophyIcon, UsersIcon, BookOpenIcon, AiAgentsIcon, TasksIcon, EmailIcon, DocumentTextIcon
 } from './icons';
 
 interface SidebarProps {
@@ -48,6 +48,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, setActivePage, isCollapse
     { id: Page.Leads, icon: <LeadsIcon className="w-5 h-5" />, label: 'Leads' },
     { id: Page.Pipeline, icon: <PipelineIcon className="w-5 h-5" />, label: 'Pipeline' },
     { id: Page.Contacts, icon: <ContactsIcon className="w-5 h-5" />, label: 'Contacts' },
+    { id: Page.Policies, icon: <DocumentTextIcon className="w-5 h-5" />, label: 'Policies' },
     { id: Page.Team, icon: <UsersIcon className="w-5 h-5" />, label: 'Team' },
     { id: Page.Recruiting, icon: <RecruitingIcon className="w-5 h-5" />, label: 'Recruiting' },
     { id: Page.Commissions, icon: <CommissionsIcon className="w-5 h-5" />, label: 'Commissions' },

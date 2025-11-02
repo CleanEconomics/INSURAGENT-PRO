@@ -6,6 +6,7 @@ import Header from './components/Header';
 import Dashboard from './components/Dashboard';
 import Pipeline from './components/Pipeline';
 import Contacts from './components/Contacts';
+import Policies from './components/Policies';
 import Recruiting from './components/Recruiting';
 import Commissions from './components/Commissions';
 import Training from './components/Training';
@@ -859,6 +860,8 @@ const App: React.FC = () => {
                   onDeleteContact={handleDeleteContact}
                   onBulkDelete={handleBulkDeleteContacts}
                 />;
+      case Page.Policies:
+        return <Policies />;
       case Page.Team:
         return <Team 
                   teams={teams} setTeams={setTeams}

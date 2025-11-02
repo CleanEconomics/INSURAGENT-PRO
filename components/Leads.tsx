@@ -34,6 +34,37 @@ const PriorityBadge: React.FC<{ priority: 'Low' | 'Medium' | 'High' }> = ({ prio
   );
 };
 
+const LeadScoreIndicator: React.FC<{ score: number }> = ({ score }) => {
+  // Clamp score to 0-100 range to prevent overflow
+  const clampedScore = Math.max(0, Math.min(100, score));
+  
+  // Determine color based on score ranges
+  const getScoreColor = () => {
+    if (clampedScore >= 75) return { bg: 'bg-green-500', text: 'text-green-700', ring: 'ring-green-200' };
+    if (clampedScore >= 50) return { bg: 'bg-yellow-500', text: 'text-yellow-700', ring: 'ring-yellow-200' };
+    if (clampedScore >= 25) return { bg: 'bg-orange-500', text: 'text-orange-700', ring: 'ring-orange-200' };
+    return { bg: 'bg-red-500', text: 'text-red-700', ring: 'ring-red-200' };
+  };
+  
+  const colors = getScoreColor();
+  
+  return (
+    <div className="flex items-center space-x-2">
+      <div className="relative w-20">
+        <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+          <div 
+            className={`h-full ${colors.bg} transition-all duration-300`} 
+            style={{ width: `${clampedScore}%` }}
+          />
+        </div>
+      </div>
+      <span className={`text-sm font-bold ${colors.text} min-w-[2rem] text-right`}>
+        {clampedScore}
+      </span>
+    </div>
+  );
+};
+
 interface LeadsProps {
   clientLeads: ClientLead[];
   recruitLeads: RecruitLead[];
@@ -310,7 +341,7 @@ const Leads: React.FC<LeadsProps> = ({ clientLeads, recruitLeads, onUpdateLead, 
                                                 </div>
                                             </th>
                                             <td className="px-6 py-4"><StatusBadge status={lead.status} /></td>
-                                            <td className="px-6 py-4 font-semibold text-textPrimary">{lead.score}</td>
+                                            <td className="px-6 py-4"><LeadScoreIndicator score={lead.score} /></td>
                                             <td className="px-6 py-4"><PriorityBadge priority={lead.priority} /></td>
                                             <td className="px-6 py-4">{lead.source}</td>
                                             <td className="px-6 py-4">{lead.assignedTo}</td>
@@ -355,7 +386,7 @@ const Leads: React.FC<LeadsProps> = ({ clientLeads, recruitLeads, onUpdateLead, 
                                                 </div>
                                             </th>
                                             <td className="px-6 py-4"><StatusBadge status={lead.status} /></td>
-                                            <td className="px-6 py-4 font-semibold text-textPrimary">{lead.score}</td>
+                                            <td className="px-6 py-4"><LeadScoreIndicator score={lead.score} /></td>
                                             <td className="px-6 py-4"><PriorityBadge priority={lead.priority} /></td>
                                             <td className="px-6 py-4">{lead.source}</td>
                                             <td className="px-6 py-4">{lead.roleInterest}</td>
