@@ -1,0 +1,39 @@
+node_modules
+dist
+build
+
+# Environment variables - NEVER COMMIT THESE
+.env
+.env.local
+.env.*.local
+.env.backup
+.env.*.backup
+*.env.backup
+.env.development
+.env.production
+.env.test
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs
+
+# Testing
+coverage
+.nyc_output
+
+# Editor directories
+.vscode
+.idea
+
+# Build files
+*.tsbuildinfo
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/

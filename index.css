@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles */
+body {
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Enhanced Button Styles for Better Visibility */
+@layer components {
+  /* Primary buttons - bright blue with good contrast */
+  .btn-primary {
+    @apply bg-primary text-white font-semibold px-4 py-2 rounded-lg shadow-md;
+    @apply hover:bg-primary-dark hover:shadow-lg;
+    @apply active:scale-95 transition-all duration-150;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
+  }
+
+  /* Secondary buttons - outline style with good visibility */
+  .btn-secondary {
+    @apply bg-white text-primary border-2 border-primary font-semibold px-4 py-2 rounded-lg;
+    @apply hover:bg-primary-light/10 hover:shadow-md;
+    @apply active:scale-95 transition-all duration-150;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
+  }
+
+  /* Success buttons - green */
+  .btn-success {
+    @apply bg-green-600 text-white font-semibold px-4 py-2 rounded-lg shadow-md;
+    @apply hover:bg-green-700 hover:shadow-lg;
+    @apply active:scale-95 transition-all duration-150;
+    @apply focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2;
+  }
+
+  /* Danger buttons - red */
+  .btn-danger {
+    @apply bg-red-600 text-white font-semibold px-4 py-2 rounded-lg shadow-md;
+    @apply hover:bg-red-700 hover:shadow-lg;
+    @apply active:scale-95 transition-all duration-150;
+    @apply focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2;
+  }
+
+  /* Ghost buttons - subtle but visible */
+  .btn-ghost {
+    @apply bg-gray-100 text-gray-700 font-medium px-4 py-2 rounded-lg;
+    @apply hover:bg-gray-200 hover:shadow-sm;
+    @apply active:scale-95 transition-all duration-150;
+    @apply focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2;
+  }
+
+  /* Icon buttons - better contrast */
+  .btn-icon {
+    @apply p-2 rounded-lg bg-gray-100 text-gray-700;
+    @apply hover:bg-gray-200 hover:shadow-sm;
+    @apply active:scale-95 transition-all duration-150;
+    @apply focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-1;
+  }
+
+  /* Small buttons */
+  .btn-sm {
+    @apply text-sm px-3 py-1.5;
+  }
+
+  /* Large buttons */
+  .btn-lg {
+    @apply text-lg px-6 py-3;
+  }
+}
+
+/* Custom Animations for AI Copilot Button */
+@keyframes pulse-soft {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+  }
+}
+
+@keyframes bounce-subtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-bounce-subtle {
+  animation: bounce-subtle 1.5s ease-in-out infinite;
+}
