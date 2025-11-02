@@ -29,7 +29,7 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    background: 'rgba(255, 255, 255, 0.95)',
+    background: '#f8fafc',
     zIndex: 9999,
   } : {
     display: 'flex',
@@ -46,7 +46,7 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
           width: spinnerSize,
           height: spinnerSize,
           border: '4px solid #e2e8f0',
-          borderTop: '4px solid #667eea',
+          borderTop: '4px solid #2563eb',
           borderRadius: '50%',
           animation: 'spin 1s linear infinite',
         }}
@@ -54,9 +54,9 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
       {message && (
         <p style={{
           marginTop: '16px',
-          color: '#718096',
-          fontSize: '14px',
-          fontWeight: 500,
+          color: '#1e293b',
+          fontSize: '16px',
+          fontWeight: 600,
         }}>
           {message}
         </p>

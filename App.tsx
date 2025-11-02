@@ -220,7 +220,9 @@ const getMockServiceTicketsData = (contacts: Contact[], agents: Agent[]): Servic
 ];
 
 const App: React.FC = () => {
+  console.log('App component rendering...');
   const { isAuthenticated, loading } = useAuth();
+  console.log('Auth state:', { isAuthenticated, loading });
 
   // ALL HOOKS MUST BE CALLED BEFORE ANY CONDITIONAL RETURNS
   const [activePage, setActivePage] = useState<Page>(Page.Dashboard);
