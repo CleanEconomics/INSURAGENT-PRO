@@ -252,15 +252,15 @@ Be concise, professional, and helpful. When users ask you to perform actions, us
       { role: 'user', parts: [{ text: context || '' }] }
     ];
 
-    const response = await genAI.models.generateContent({
+    const result = await genAI.models.generateContent({
       model: 'gemini-1.5-flash',
       contents: contents,
     });
 
-    // Return text response
+    // Return text response using the correct accessor
     return {
       functionCalls: null,
-      chatResponse: response.text || '',
+      chatResponse: result.response.text() || '',
     };
   } catch (error) {
     console.error('Gemini API error:', error);
@@ -278,13 +278,13 @@ export async function getAiFunctionResponse(history: any[], functionResponses: a
       })),
     ];
 
-    const response = await genAI.models.generateContent({
+    const result = await genAI.models.generateContent({
       model: 'gemini-1.5-flash',
       contents: contents,
     });
 
     return {
-      chatResponse: response.text || '',
+      chatResponse: result.response.text() || '',
       functionCalls: null,
     };
   } catch (error) {
@@ -320,20 +320,41 @@ Return a JSON object in this exact format:
   }
 }`;
 
-    const response = await genAI.models.generateContent({
+    const result = await genAI.models.generateContent({
       model: 'gemini-1.5-flash',
-      contents: prompt,
+      contents: [{ role: 'user', parts: [{ text: prompt }] }],
+      generationConfig: {
+        responseMimeType: 'application/json',
+        responseSchema: {
+          type: 'object',
+          properties: {
+            leadType: { 
+              type: 'string',
+              enum: ['client', 'recruit']
+            },
+            mapping: {
+              type: 'object',
+              properties: {
+                name: { type: 'string' },
+                email: { type: 'string' },
+                phone: { type: 'string' },
+                status: { type: 'string' },
+                source: { type: 'string' },
+                assignedTo: { type: 'string' },
+                roleInterest: { type: 'string' }
+              },
+              required: ['name', 'email']
+            }
+          },
+          required: ['leadType', 'mapping']
+        }
+      }
     });
 
-    const text = response.text || '';
+    const text = result.response.text();
 
-    // Extract JSON from response
-    const jsonMatch = text.match(/\{[\s\S]*\}/);
-    if (jsonMatch) {
-      return JSON.parse(jsonMatch[0]);
-    }
-
-    throw new Error('Invalid response format');
+    // Parse the JSON response
+    return JSON.parse(text);
   } catch (error) {
     console.error('AI lead mapping error:', error);
     throw new Error('Failed to map lead fields');
